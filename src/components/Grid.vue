@@ -38,22 +38,28 @@ export default class Grid extends Vue {
       const tr = document.createElement('tr');
       table.appendChild(tr);
       for (let j = 1; j <= this.width; j += 1) {
-        const currentTr = document.getElementsByTagName('tr')[i - 1];
+        const currTr = document.getElementsByTagName('tr')[i - 1];
         const td = document.createElement('td');
-        currentTr.appendChild(td);
+        currTr.appendChild(td);
       }
     }
-    let assignedMines = 0;
-    while (assignedMines < this.bombs) {
-      const rowIndex = Math.floor(Math.random() * this.width + 1);
-      const colIndex = Math.floor(Math.random() * this.width + 1);
+    let assignedBombs = 0;
+    while (assignedBombs < this.bombs) {
+      const rowIndex = this.randNum();
+      const colIndex = this.randNum();
       if (colIndex !== 0 && rowIndex !== 0) {
-        if (document.getElementsByTagName('tr')[rowIndex - 1].children[colIndex - 1].className !== 'bomb') {
-          document.getElementsByTagName('tr')[rowIndex - 1].children[colIndex - 1].className = 'bomb';
-          assignedMines += 1;
+        const currentTr = document.getElementsByTagName('tr')[rowIndex - 1].children[colIndex - 1];
+        if (currentTr.className !== 'bomb') {
+          currentTr.className = 'bomb';
+          assignedBombs += 1;
         }
       }
     }
+  }
+
+  randNum() {
+    const randomNumber = Math.floor(Math.random() * this.width + 1);
+    return randomNumber;
   }
 }
 
